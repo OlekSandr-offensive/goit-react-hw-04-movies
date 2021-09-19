@@ -1,11 +1,23 @@
-import './App.css';
+import { Switch, Route } from 'react-router-dom';
+import AppBar from './components/AppBar/AppBar';
+import Container from './components/Container/Container';
+import HomePage from './components/HomePage/HomePage';
+import MovieDetailsPage from './components/MovieDetailsPage/MovieDetailsPage';
+import Cast from './components/Cast/Cast';
+import Reviews from './components/Reviews/Reviews';
 
 function App() {
-  const API_KEY = '3e3ad4fe8ef93a013732290a26488529';
-  const URL =
-    'https://api.themoviedb.org/3/movie/550?api_key=3e3ad4fe8ef93a013732290a26488529';
-
-  return <div className="App"></div>;
+  return (
+    <Container>
+      <AppBar />
+      <Switch>
+        <Route path="/" exact>
+          <HomePage />
+        </Route>
+        <Route path="/movies"></Route>
+      </Switch>
+    </Container>
+  );
 }
 
 export default App;
