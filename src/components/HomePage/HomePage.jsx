@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { fetchTrendingMovies } from '../../fetch-service';
-// import * as homePageAPI from '../../fetch-service';
 import '../HomePage/HomePage.scss';
 
 const Status = {
@@ -13,17 +12,16 @@ const Status = {
 };
 
 export default function HomePage({ loader }) {
-  const { url } = useRouteMatch();
   const [trendMovies, setTrendMovies] = useState([]);
   const [error, setError] = useState(null);
   const [spinner, setSpinner] = useState(false);
-  const [status, setStatus] = useState(Status.IDLE);
+  const [, setStatus] = useState(Status.PENDING);
 
   useEffect(() => {
-    // homePageAPI.fetchTrendingMovies().then(setTrendMovies);
+    setStatus(Status.PENDING);
+    setSpinner(true);
     const fetchMovies = async function () {
       try {
-        setSpinner(true);
         const data = await fetchTrendingMovies();
         setStatus(Status.RESOLVED);
         setTrendMovies(date => [...date, ...data.results]);
@@ -41,22 +39,26 @@ export default function HomePage({ loader }) {
   return (
     <>
       <h1>Trending today</h1>
-      {spinner && loader}
-      {trendMovies.length > 0 && (
+      {Status.PENDING && spinner && loader}
+      {Status.RESOLVED && trendMovies.length > 0 && (
         <ul>
-          {trendMovies.map(movie => (
-            <li key={movie.id}>
-              <Link
-                to={{
-                  pathname: `movies/${movie.id}`,
-                }}
-              >
-                {movie.title}
-              </Link>
-            </li>
-          ))}
+          {trendMovies.map(
+            movie =>
+              movie.title && (
+                <li key={movie.id}>
+                  <Link
+                    to={{
+                      pathname: `movies/${movie.id}`,
+                    }}
+                  >
+                    {movie.title}
+                  </Link>
+                </li>
+              ),
+          )}
         </ul>
       )}
+      {Status.REJECTED && error && <p>This text has already been found!</p>}
     </>
   );
 }

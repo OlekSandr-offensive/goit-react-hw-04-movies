@@ -14,7 +14,7 @@ const loader = (
 
 function App() {
   return (
-    <Container>
+    <Container loader={loader}>
       <AppBar />
       <Switch>
         <Route path="/" exact>
