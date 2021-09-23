@@ -1,0 +1,18 @@
+.home-title {
+  margin-bottom: 20px;
+  padding-left: 20px;
+  color: #2a363b;
+}
+
+.home-item:not(:last-child) {
+  margin-bottom: 5px;
+}
+
+.home-link {
+  color: #2a363b;
+}
+
+.home-link:hover,
+.home-link:focus {
+  color: #ffff;
+}

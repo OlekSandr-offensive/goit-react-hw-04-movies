@@ -38,15 +38,16 @@ export default function HomePage({ loader }) {
 
   return (
     <>
-      <h1>Trending today</h1>
+      <h1 className="home-title">Trending today</h1>
       {Status.PENDING && spinner && loader}
       {Status.RESOLVED && trendMovies.length > 0 && (
-        <ul>
+        <ul className="home-collection">
           {trendMovies.map(
             movie =>
               movie.title && (
-                <li key={movie.id}>
+                <li className="home-item" key={movie.id}>
                   <Link
+                    className="home-link"
                     to={{
                       pathname: `movies/${movie.id}`,
                     }}
@@ -58,7 +59,9 @@ export default function HomePage({ loader }) {
           )}
         </ul>
       )}
-      {Status.REJECTED && error && <p>This text has already been found!</p>}
+      {Status.REJECTED && error && (
+        <p className="home-error">This text has already been found!</p>
+      )}
     </>
   );
 }

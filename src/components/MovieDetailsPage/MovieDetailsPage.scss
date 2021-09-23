@@ -1,0 +1,87 @@
+.movie-detail-container {
+  color: #2a363b;
+}
+
+.btn {
+  width: 100px;
+  height: auto;
+  margin-bottom: 20px;
+  cursor: pointer;
+  color: #2a363b;
+  background: #ffff;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  outline: none;
+  border: 2px solid rgba(70, 70, 70, 0.6);
+  border-radius: 3px;
+  border-style: none;
+
+  &::before {
+    display: inline-block;
+    content: '';
+    width: 1em;
+    height: 1em;
+    stroke-width: 0;
+    stroke: currentColor;
+    fill: currentColor;
+    background-image: url(../MovieDetailsPage/arrow-left2.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    margin-right: 5px;
+  }
+
+  &:hover,
+  &:focus {
+    fill: #ffff;
+    color: #ffff;
+    background: #2196f3;
+    outline: none;
+  }
+}
+
+.movie-detail {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.image {
+  margin-right: 20px;
+}
+
+.movie-detail-footer {
+  padding: 20px;
+  border-top: 2px solid rgba(70, 70, 70, 0.6);
+  border-bottom: 2px solid rgba(70, 70, 70, 0.6);
+}
+
+.movie-detail-info {
+  h1,
+  h2,
+  h3,
+  p {
+    margin-bottom: 15px;
+  }
+  ul {
+    display: flex;
+  }
+  li:not(:last-child) {
+    margin-right: 8px;
+  }
+}
+
+.movie-detail-footer {
+  color: #2a363b;
+  h2 {
+    margin-bottom: 10px;
+  }
+  li {
+    padding-left: 10px;
+  }
+  a {
+    padding: 5px;
+  }
+}
