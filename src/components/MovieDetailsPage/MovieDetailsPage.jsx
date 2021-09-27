@@ -4,20 +4,31 @@ import { Link, useParams, useRouteMatch } from 'react-router-dom';
 import { fetchMoviesById } from '../../fetch-service';
 import '../MovieDetailsPage/MovieDetailsPage.scss';
 
+const Status = {
+  IDLE: 'idle',
+  PENDING: 'pending',
+  RESOLVED: 'resolved',
+  REJECTED: 'rejected',
+};
+
 export default function MovieDetailsPage({ loader }) {
   const { url } = useRouteMatch();
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState(null);
   const [spinner, setSpinner] = useState(false);
+  const [, setStatus] = useState(Status.PENDING);
 
   useEffect(() => {
+    setStatus(Status.PENDING);
     setSpinner(true);
     const fetchMoviePage = async function () {
       try {
         const response = await fetchMoviesById(movieId);
+        setStatus(Status.RESOLVED);
         setMovie(response);
       } catch (error) {
+        setStatus(Status.REJECTED);
         setError(error);
       } finally {
         setSpinner(false);
@@ -29,7 +40,8 @@ export default function MovieDetailsPage({ loader }) {
 
   return (
     <>
-      {movie && (
+      {Status.PENDING && spinner && loader}
+      {Status.RESOLVED && movie && (
         <>
           <div className="movie-detail-container">
             <button className="btn" type="button">
@@ -83,6 +95,9 @@ export default function MovieDetailsPage({ loader }) {
             </ul>
           </div>
         </>
+      )}
+      {Status.REJECTED && error && (
+        <p className="home-error">This text has already been found!</p>
       )}
     </>
   );
