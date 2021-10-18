@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Link, useParams, useRouteMatch } from 'react-router-dom';
+import { Link, Route, useParams, useRouteMatch } from 'react-router-dom';
 import { fetchMoviesById } from '../../fetch-service';
+import Cast from '../Cast/Cast';
 import '../MovieDetailsPage/MovieDetailsPage.scss';
 
 const Status = {
@@ -44,13 +45,21 @@ export default function MovieDetailsPage({ loader }) {
       {Status.RESOLVED && movie && (
         <>
           <div className="movie-detail-container">
-            <button className="btn" type="button">
-              Go back
-            </button>
+            <Link
+              to={{
+                pathname: `/`,
+              }}
+            >
+              <button className="btn" type="button">
+                Go back
+              </button>
+            </Link>
+
             <div className="movie-detail">
               <img
                 className="image"
-                src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
+                src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
+                width="200"
                 alt={movie.title}
               />
               <div className="movie-detail-info">
@@ -94,6 +103,9 @@ export default function MovieDetailsPage({ loader }) {
               </li>
             </ul>
           </div>
+          <Route path="/movies/:movieId/cast">
+            <Cast />
+          </Route>
         </>
       )}
       {Status.REJECTED && error && (

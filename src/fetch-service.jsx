@@ -25,3 +25,8 @@ export function fetchSerchMovies() {
     `${BASE_URL}/3/search/movie?api_key=${API_KEY}&language=en-US&page=1&include_adult=false`,
   );
 }
+
+export function fetchMoviesCredits(movieId) {
+  return fetchWithErrorHandler(`${BASE_URL}/3/movie/${movieId}/credits?api_key=${API_KEY}&language=en-US
+`);
+}
