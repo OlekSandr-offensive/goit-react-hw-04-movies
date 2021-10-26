@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { fetchMoviesCredits } from '../../fetch-service';
+import '../Cast/Cast.scss';
 
 const Status = {
   IDLE: 'idle',
@@ -52,8 +53,10 @@ function Cast({ loader }) {
                         width="100"
                         alt={cast.name}
                       />
-                      <h3>{cast.name}</h3>
-                      <p>Character: {cast.character}</p>
+                      <h3 className="cast-name">{cast.name}</h3>
+                      <p className="cast-character">
+                        Character: {cast.character}
+                      </p>
                     </div>
                   }
                 </li>
