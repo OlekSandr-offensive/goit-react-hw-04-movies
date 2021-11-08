@@ -30,3 +30,8 @@ export function fetchMoviesCredits(movieId) {
   return fetchWithErrorHandler(`${BASE_URL}/3/movie/${movieId}/credits?api_key=${API_KEY}&language=en-US
 `);
 }
+
+export function fetchMoviesReviews(movieId) {
+  return fetchWithErrorHandler(`${BASE_URL}/3/movie/${movieId}/reviews?api_key=${API_KEY}&language=en-US&page=1
+`);
+}

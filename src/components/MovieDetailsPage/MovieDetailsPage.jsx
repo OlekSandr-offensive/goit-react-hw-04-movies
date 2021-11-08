@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link, Route, useParams, useRouteMatch } from 'react-router-dom';
 import { fetchMoviesById } from '../../fetch-service';
 import Cast from '../Cast/Cast';
+import Reviews from '../Reviews/Reviews';
 import '../MovieDetailsPage/MovieDetailsPage.scss';
 
 const Status = {
@@ -105,6 +106,9 @@ export default function MovieDetailsPage({ loader }) {
           </div>
           <Route path="/movies/:movieId/cast">
             <Cast />
+          </Route>
+          <Route path="/movies/:movieId/reviews">
+            <Reviews />
           </Route>
         </>
       )}
