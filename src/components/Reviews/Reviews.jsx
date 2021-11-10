@@ -25,7 +25,7 @@ function Reviews({ loader }) {
       try {
         const response = await fetchMoviesReviews(movieId);
         setStatus(Status.RESOLVED);
-        setReviews(response.reviews);
+        setReviews(response.results);
       } catch (error) {
         setStatus(Status.REJECTED);
         setError(error);
