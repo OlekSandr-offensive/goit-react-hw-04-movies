@@ -27,7 +27,7 @@ function Reviews({ loader }) {
         if (response.total_pages > 0) {
           setStatus(Status.RESOLVED);
           setReviews(response.results);
-          console.log(response.total_pages);
+          // console.log(response.total_pages);
         } else {
           setReviews(null);
         }
