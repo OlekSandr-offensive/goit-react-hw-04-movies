@@ -83,7 +83,6 @@ export default function MovieDetailsPage({ loader }) {
               <li>
                 <Link
                   className="link"
-                  activeClassName="activeLink"
                   to={{
                     pathname: `${url}/cast`,
                   }}
@@ -94,7 +93,6 @@ export default function MovieDetailsPage({ loader }) {
               <li>
                 <Link
                   className="link"
-                  activeClassName="activeLink"
                   to={{
                     pathname: `${url}/reviews`,
                   }}
@@ -104,12 +102,8 @@ export default function MovieDetailsPage({ loader }) {
               </li>
             </ul>
           </div>
-          <Route path="/movies/:movieId/cast">
-            <Cast />
-          </Route>
-          <Route path="/movies/:movieId/reviews">
-            <Reviews />
-          </Route>
+          <Route path="/movies/:movieId/cast">{movie && <Cast />}</Route>
+          <Route path="/movies/:movieId/reviews">{movie && <Reviews />}</Route>
         </>
       )}
       {Status.REJECTED && error && (

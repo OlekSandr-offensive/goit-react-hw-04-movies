@@ -1,16 +1,18 @@
 import React from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { fetchSerchMovies } from '../../fetch-service';
 import '../MoviesPage/MoviesPage.scss';
 
 export default function MoviesPage() {
   const { url } = useRouteMatch();
+  const [searchMovies, setSearchMovies] = useState(null);
 
   useEffect(() => {
     const fetchSearch = async function () {
       try {
-        const data = await fetchSerchMovies();
+        const response = await fetchSerchMovies('bond');
+        console.log(response);
       } catch (error) {
       } finally {
       }

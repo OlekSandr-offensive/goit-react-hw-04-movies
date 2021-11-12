@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { fetchMoviesReviews } from '../../fetch-service';
 
 const Status = {
@@ -14,7 +14,7 @@ function Reviews({ loader }) {
   const { movieId } = useParams();
   const [reviews, setReviews] = useState(null);
   const [error, setError] = useState(null);
-  const [message, setMessage] = useState(false);
+  // const [message, setMessage] = useState(false);
   const [spinner, setSpinner] = useState(false);
   const [, setStatus] = useState(Status.PENDING);
 
@@ -24,8 +24,13 @@ function Reviews({ loader }) {
     const fetchReviews = async function () {
       try {
         const response = await fetchMoviesReviews(movieId);
-        setStatus(Status.RESOLVED);
-        setReviews(response.results);
+        if (response.total_pages > 0) {
+          setStatus(Status.RESOLVED);
+          setReviews(response.results);
+          console.log(response.total_pages);
+        } else {
+          setReviews(null);
+        }
       } catch (error) {
         setStatus(Status.REJECTED);
         setError(error);
@@ -40,10 +45,10 @@ function Reviews({ loader }) {
   return (
     <>
       {Status.PENDING && spinner && loader}
-      {Status.REJECTED && reviews && (
+      {Status.REJECTED && (
         <ul>
-          {reviews.map(review => (
-            <>
+          {reviews ? (
+            reviews.map(review => (
               <li key={review.id}>
                 {
                   <div>
@@ -52,8 +57,10 @@ function Reviews({ loader }) {
                   </div>
                 }
               </li>
-            </>
-          ))}
+            ))
+          ) : (
+            <p>test{console.log('test')}</p>
+          )}
         </ul>
       )}
       {Status.REJECTED && error && (

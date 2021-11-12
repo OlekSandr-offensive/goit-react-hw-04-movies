@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { fetchMoviesCredits } from '../../fetch-service';
 import '../Cast/Cast.scss';
 
@@ -42,9 +42,9 @@ function Cast({ loader }) {
       {Status.PENDING && spinner && loader}
       {Status.RESOLVED && cast && (
         <ul>
-          {cast.map(cast => (
-            <>
-              {cast.profile_path && (
+          {cast.map(
+            cast =>
+              cast.profile_path && (
                 <li key={cast.id}>
                   {
                     <div>
@@ -60,9 +60,8 @@ function Cast({ loader }) {
                     </div>
                   }
                 </li>
-              )}
-            </>
-          ))}
+              ),
+          )}
         </ul>
       )}
       {Status.REJECTED && error && (
