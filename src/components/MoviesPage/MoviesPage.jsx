@@ -18,7 +18,7 @@ export default function MoviesPage({ loader }) {
   const [movieName, setMovieName] = useState('');
   const [listMovies, setListMovies] = useState(null);
   const [error, setError] = useState(null);
-  const [spinner, setSpinner] = useState(false);
+  const [spinner, setSpinner] = useState(true);
   const [, setStatus] = useState(Status.PENDING);
 
   useEffect(() => {
@@ -26,10 +26,21 @@ export default function MoviesPage({ loader }) {
     setSpinner(true);
     const fetchSearch = async function () {
       try {
-        const response = await fetchSerchMovies(searchMovies);
-        setStatus(Status.RESOLVED);
-        setListMovies(response.results);
-        setMovieName('');
+        if (searchMovies) {
+          const response = await fetchSerchMovies(searchMovies);
+
+          if (response.total_pages < 1) {
+            setError(`Dont found this text < ${searchMovies} >`);
+            setStatus(Status.REJECTED);
+            return;
+          }
+          setStatus(Status.RESOLVED);
+          setListMovies(response.results);
+          setMovieName('');
+          return response;
+        } else {
+          setStatus(Status.IDLE);
+        }
       } catch (error) {
         setStatus(Status.REJECTED);
         setError(error);
@@ -52,13 +63,16 @@ export default function MoviesPage({ loader }) {
       toast.error('Enter a name for the picture!');
       return;
     }
+
     setSearchMovies(movieName);
+    setMovieName('');
+    setListMovies(null);
+    setError(null);
   };
 
   return (
     <>
       <ToastContainer autoClose={3000} />
-      {Status.PENDING && spinner && loader}
       <form className="SearchForm" onSubmit={handleSabmit}>
         <button type="submit" className="SearchForm-button"></button>
 
@@ -71,6 +85,7 @@ export default function MoviesPage({ loader }) {
           onChange={handleNameChange}
         />
       </form>
+      {Status.PENDING && spinner && loader}
       {Status.RESOLVED && listMovies && (
         <ul>
           {listMovies.map(({ original_title, id }) => (
@@ -78,9 +93,7 @@ export default function MoviesPage({ loader }) {
           ))}
         </ul>
       )}
-      {Status.REJECTED && error && (
-        <p className="home-error">This text has already been found!</p>
-      )}
+      {Status.REJECTED && error && <h1 className="movie-error">{error}</h1>}
     </>
   );
 }

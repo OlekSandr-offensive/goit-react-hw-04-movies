@@ -6,8 +6,6 @@ import Container from './components/Container/Container';
 import HomePage from './components/HomePage/HomePage';
 import MoviesPage from './components/MoviesPage/MoviesPage';
 import MovieDetailsPage from './components/MovieDetailsPage/MovieDetailsPage';
-import Cast from './components/Cast/Cast';
-import Reviews from './components/Reviews/Reviews';
 
 const loader = (
   <Loader type="Puff" color="#00BFFF" height={100} width={100} timeout={3000} />
@@ -22,7 +20,7 @@ function App() {
           <HomePage loader={loader} />
         </Route>
         <Route path="/movies" exact>
-          <MoviesPage />
+          <MoviesPage loader={loader} />
         </Route>
         <Route path="/movies/:movieId">
           <MovieDetailsPage loader={loader} />
