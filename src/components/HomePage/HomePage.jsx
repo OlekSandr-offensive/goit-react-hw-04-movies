@@ -52,7 +52,13 @@ export default function HomePage({ loader }) {
                       pathname: `movies/${movie.id}`,
                     }}
                   >
-                    {movie.title}
+                    <img
+                      src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
+                      alt={movie.title}
+                      width="186"
+                      height=""
+                    />
+                    {/* {movie.title} */}
                   </Link>
                 </li>
               ),

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { fetchSerchMovies } from '../../fetch-service';
 import { ToastContainer } from 'react-toastify';
@@ -89,7 +90,16 @@ export default function MoviesPage({ loader }) {
       {Status.RESOLVED && listMovies && (
         <ul>
           {listMovies.map(({ original_title, id }) => (
-            <li key={id}>{original_title}</li>
+            <li key={id}>
+              <Link
+                className="home-link"
+                to={{
+                  pathname: `movies/${id}`,
+                }}
+              >
+                {original_title}
+              </Link>
+            </li>
           ))}
         </ul>
       )}

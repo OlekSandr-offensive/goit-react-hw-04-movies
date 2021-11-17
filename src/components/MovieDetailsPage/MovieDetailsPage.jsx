@@ -1,6 +1,13 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Link, Route, useParams, useRouteMatch } from 'react-router-dom';
+import {
+  Link,
+  Route,
+  useParams,
+  useRouteMatch,
+  useLocation,
+  useHistory,
+} from 'react-router-dom';
 import { fetchMoviesById } from '../../fetch-service';
 import Cast from '../Cast/Cast';
 import Reviews from '../Reviews/Reviews';
@@ -14,7 +21,10 @@ const Status = {
 };
 
 export default function MovieDetailsPage({ loader }) {
-  const { url } = useRouteMatch();
+  const { url, path } = useRouteMatch();
+  const history = useHistory();
+  const locotion = useLocation();
+
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState(null);
@@ -40,21 +50,19 @@ export default function MovieDetailsPage({ loader }) {
     fetchMoviePage();
   }, [movieId]);
 
+  const goBack = () => {
+    history.push('/');
+  };
+
   return (
     <>
       {Status.PENDING && spinner && loader}
       {Status.RESOLVED && movie && (
         <>
           <div className="movie-detail-container">
-            <Link
-              to={{
-                pathname: `/`,
-              }}
-            >
-              <button className="btn" type="button">
-                Go back
-              </button>
-            </Link>
+            <button className="btn" type="button" onClick={goBack}>
+              Go back
+            </button>
 
             <div className="movie-detail">
               <img
@@ -102,8 +110,8 @@ export default function MovieDetailsPage({ loader }) {
               </li>
             </ul>
           </div>
-          <Route path="/movies/:movieId/cast">{movie && <Cast />}</Route>
-          <Route path="/movies/:movieId/reviews">{movie && <Reviews />}</Route>
+          <Route path={`${path}/cast`}>{movie && <Cast />}</Route>
+          <Route path={`${path}/reviews`}>{movie && <Reviews />}</Route>
         </>
       )}
       {Status.REJECTED && error && (
