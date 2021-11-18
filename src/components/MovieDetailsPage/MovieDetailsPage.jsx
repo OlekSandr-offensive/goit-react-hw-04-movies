@@ -23,7 +23,8 @@ const Status = {
 export default function MovieDetailsPage({ loader }) {
   const { url, path } = useRouteMatch();
   const history = useHistory();
-  const locotion = useLocation();
+  const location = useLocation();
+  console.log(location);
 
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);

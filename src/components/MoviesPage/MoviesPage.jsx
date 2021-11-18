@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { fetchSerchMovies } from '../../fetch-service';
 import { ToastContainer } from 'react-toastify';
@@ -15,6 +15,10 @@ const Status = {
 };
 
 export default function MoviesPage({ loader }) {
+  const { url } = useRouteMatch();
+  const location = useLocation();
+  console.log('MoviesPage', location);
+
   const [searchMovies, setSearchMovies] = useState(null);
   const [movieName, setMovieName] = useState('');
   const [listMovies, setListMovies] = useState(null);
@@ -88,16 +92,23 @@ export default function MoviesPage({ loader }) {
       </form>
       {Status.PENDING && spinner && loader}
       {Status.RESOLVED && listMovies && (
-        <ul>
-          {listMovies.map(({ original_title, id }) => (
+        <ul className="movie-collection">
+          {listMovies.map(({ original_title, id, poster_path }) => (
             <li key={id}>
               <Link
                 className="home-link"
                 to={{
-                  pathname: `movies/${id}`,
+                  pathname: `${url}movies/${id}`,
+                  state: { from: location },
                 }}
               >
-                {original_title}
+                <img
+                  src={`https://image.tmdb.org/t/p/original/${poster_path}`}
+                  alt={original_title}
+                  width="186"
+                  height=""
+                />
+                {/* {original_title} */}
               </Link>
             </li>
           ))}

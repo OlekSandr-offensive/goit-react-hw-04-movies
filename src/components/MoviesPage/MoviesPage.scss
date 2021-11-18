@@ -67,3 +67,11 @@
   margin-top: 20px;
   margin-left: 70px;
 }
+
+.movie-collection {
+  margin-top: 30px;
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 24px;
+}
