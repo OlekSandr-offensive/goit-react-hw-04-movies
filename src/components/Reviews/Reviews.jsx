@@ -59,7 +59,7 @@ function Reviews({ loader }) {
               </li>
             ))
           ) : (
-            <p>test{console.log('test')}</p>
+            <p>We don't have any reviews for this movie</p>
           )}
         </ul>
       )}

@@ -51,8 +51,8 @@ export default function MovieDetailsPage({ loader }) {
     fetchMoviePage();
   }, [movieId]);
 
-  const goBack = () => {
-    history.push('/');
+  const onGoBack = () => {
+    history.push(location.state.from);
   };
 
   return (
@@ -61,7 +61,7 @@ export default function MovieDetailsPage({ loader }) {
       {Status.RESOLVED && movie && (
         <>
           <div className="movie-detail-container">
-            <button className="btn" type="button" onClick={goBack}>
+            <button className="btn" type="button" onClick={onGoBack}>
               Go back
             </button>
 

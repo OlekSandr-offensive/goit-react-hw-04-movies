@@ -98,7 +98,7 @@ export default function MoviesPage({ loader }) {
               <Link
                 className="home-link"
                 to={{
-                  pathname: `${url}movies/${id}`,
+                  pathname: `${url}/${id}`,
                   state: { from: location },
                 }}
               >
