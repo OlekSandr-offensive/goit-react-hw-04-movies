@@ -11,6 +11,7 @@ import {
 import { fetchMoviesById } from '../../fetch-service';
 import Cast from '../Cast/Cast';
 import Reviews from '../Reviews/Reviews';
+import ImageError from '../ImageError/ImageError';
 import '../MovieDetailsPage/MovieDetailsPage.scss';
 
 const Status = {
@@ -24,7 +25,6 @@ export default function MovieDetailsPage({ loader }) {
   const { url, path } = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
-  console.log(location);
 
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
@@ -52,7 +52,7 @@ export default function MovieDetailsPage({ loader }) {
   }, [movieId]);
 
   const onGoBack = () => {
-    history.push(location.state.from);
+    history.push(location?.state?.form ?? '/');
   };
 
   return (
@@ -62,16 +62,20 @@ export default function MovieDetailsPage({ loader }) {
         <>
           <div className="movie-detail-container">
             <button className="btn" type="button" onClick={onGoBack}>
-              Go back
+              {location?.state?.label ?? 'Go back'}
             </button>
 
             <div className="movie-detail">
-              <img
-                className="image"
-                src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
-                width="200"
-                alt={movie.title}
-              />
+              {movie.poster_path ? (
+                <img
+                  className="image"
+                  src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
+                  width="200"
+                  alt={movie.title}
+                />
+              ) : (
+                <ImageError />
+              )}
               <div className="movie-detail-info">
                 <h1>{`${movie.title}`}</h1>
                 <p>{movie.release_date}</p>
@@ -90,10 +94,20 @@ export default function MovieDetailsPage({ loader }) {
             <h2>Additional information</h2>
             <ul>
               <li>
+                {/* {console.log()} */}
                 <Link
                   className="link"
                   to={{
                     pathname: `${url}/cast`,
+
+                    // state: {
+                    //   form: {
+                    //     location: location?.state?.form,
+                    //     label: location?.state?.label,
+
+                    //     // label: location.state.form.label ?? 'Go back',
+                    //   },
+                    // },
                   }}
                 >
                   Cast
@@ -104,6 +118,12 @@ export default function MovieDetailsPage({ loader }) {
                   className="link"
                   to={{
                     pathname: `${url}/reviews`,
+                    // state: {
+                    //   form: {
+                    //     location,
+                    //     // label: location.state.form.label ?? 'Go back',
+                    //   },
+                    // },
                   }}
                 >
                   Reviews

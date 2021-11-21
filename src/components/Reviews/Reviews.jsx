@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { fetchMoviesReviews } from '../../fetch-service';
 
 const Status = {
@@ -11,10 +11,11 @@ const Status = {
 };
 
 function Reviews({ loader }) {
+  const location = useLocation();
   const { movieId } = useParams();
   const [reviews, setReviews] = useState(null);
   const [error, setError] = useState(null);
-  // const [message, setMessage] = useState(false);
+
   const [spinner, setSpinner] = useState(false);
   const [, setStatus] = useState(Status.PENDING);
 
@@ -27,7 +28,6 @@ function Reviews({ loader }) {
         if (response.total_pages > 0) {
           setStatus(Status.RESOLVED);
           setReviews(response.results);
-          // console.log(response.total_pages);
         } else {
           setReviews(null);
         }
@@ -47,6 +47,7 @@ function Reviews({ loader }) {
       {Status.PENDING && spinner && loader}
       {Status.REJECTED && (
         <ul>
+          {/* {console.log(location.state.form.location.label)} */}
           {reviews ? (
             reviews.map(review => (
               <li key={review.id}>

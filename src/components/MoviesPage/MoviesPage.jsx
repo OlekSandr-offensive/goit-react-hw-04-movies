@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link, useRouteMatch, useLocation } from 'react-router-dom';
+import { Link, useRouteMatch, useLocation, useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { fetchSerchMovies } from '../../fetch-service';
+import ImageError from '../ImageError/ImageError';
 import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,25 +18,26 @@ const Status = {
 export default function MoviesPage({ loader }) {
   const { url } = useRouteMatch();
   const location = useLocation();
-  console.log('MoviesPage', location);
-
-  const [searchMovies, setSearchMovies] = useState(null);
+  const history = useHistory();
+  const [searchMovies] = useState(null);
   const [movieName, setMovieName] = useState('');
   const [listMovies, setListMovies] = useState(null);
   const [error, setError] = useState(null);
   const [spinner, setSpinner] = useState(true);
   const [, setStatus] = useState(Status.PENDING);
 
+  const saveList = new URLSearchParams(location.search).get(`query`);
+
   useEffect(() => {
     setStatus(Status.PENDING);
     setSpinner(true);
     const fetchSearch = async function () {
       try {
-        if (searchMovies) {
-          const response = await fetchSerchMovies(searchMovies);
+        if (saveList) {
+          const response = await fetchSerchMovies(saveList);
 
           if (response.total_pages < 1) {
-            setError(`Dont found this text < ${searchMovies} >`);
+            setError(`Dont found this text < ${saveList} >`);
             setStatus(Status.REJECTED);
             return;
           }
@@ -55,7 +57,7 @@ export default function MoviesPage({ loader }) {
     };
 
     fetchSearch();
-  }, [searchMovies]);
+  }, [searchMovies, saveList]);
 
   const handleNameChange = event => {
     setMovieName(event.currentTarget.value.toLowerCase());
@@ -68,11 +70,15 @@ export default function MoviesPage({ loader }) {
       toast.error('Enter a name for the picture!');
       return;
     }
+    history.push({
+      ...location,
+      search: `query=${movieName}`,
+    });
 
-    setSearchMovies(movieName);
+    // setSearchMovies(movieName);
     setMovieName('');
-    setListMovies(null);
-    setError(null);
+    // setListMovies(null);
+    // setError(null);
   };
 
   return (
@@ -90,6 +96,7 @@ export default function MoviesPage({ loader }) {
           onChange={handleNameChange}
         />
       </form>
+
       {Status.PENDING && spinner && loader}
       {Status.RESOLVED && listMovies && (
         <ul className="movie-collection">
@@ -99,15 +106,22 @@ export default function MoviesPage({ loader }) {
                 className="home-link"
                 to={{
                   pathname: `${url}/${id}`,
-                  state: { from: location },
+                  state: {
+                    form: location,
+                    label: 'Movies page',
+                  },
                 }}
               >
-                <img
-                  src={`https://image.tmdb.org/t/p/original/${poster_path}`}
-                  alt={original_title}
-                  width="186"
-                  height=""
-                />
+                {poster_path ? (
+                  <img
+                    src={`https://image.tmdb.org/t/p/original/${poster_path}`}
+                    alt={original_title}
+                    width="186"
+                    height=""
+                  />
+                ) : (
+                  <ImageError />
+                )}
                 {/* {original_title} */}
               </Link>
             </li>

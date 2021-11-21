@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMoviesCredits } from '../../fetch-service';
+import ImageError from '../ImageError/ImageError';
 import '../Cast/Cast.scss';
 
 const Status = {
@@ -42,26 +43,25 @@ function Cast({ loader }) {
       {Status.PENDING && spinner && loader}
       {Status.RESOLVED && cast && (
         <ul>
-          {cast.map(
-            cast =>
-              cast.profile_path && (
-                <li key={cast.id}>
-                  {
-                    <div>
-                      <img
-                        src={`https://image.tmdb.org/t/p/original/${cast.profile_path}`}
-                        width="100"
-                        alt={cast.name}
-                      />
-                      <h3 className="cast-name">{cast.name}</h3>
-                      <p className="cast-character">
-                        Character: {cast.character}
-                      </p>
-                    </div>
-                  }
-                </li>
-              ),
-          )}
+          {cast.map(cast => (
+            <li key={cast.id}>
+              {
+                <div>
+                  {cast.profile_path ? (
+                    <img
+                      src={`https://image.tmdb.org/t/p/original/${cast.profile_path}`}
+                      width="100"
+                      alt={cast.name}
+                    />
+                  ) : (
+                    <ImageError />
+                  )}
+                  <h3 className="cast-name">{cast.name}</h3>
+                  <p className="cast-character">Character: {cast.character}</p>
+                </div>
+              }
+            </li>
+          ))}
         </ul>
       )}
       {Status.REJECTED && error && (

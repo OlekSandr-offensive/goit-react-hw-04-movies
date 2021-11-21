@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { fetchTrendingMovies } from '../../fetch-service';
+import ImageError from '../ImageError/ImageError';
 import '../HomePage/HomePage.scss';
 
 const Status = {
@@ -12,6 +13,8 @@ const Status = {
 };
 
 export default function HomePage({ loader }) {
+  const location = useLocation();
+
   const [trendMovies, setTrendMovies] = useState([]);
   const [error, setError] = useState(null);
   const [spinner, setSpinner] = useState(false);
@@ -50,14 +53,22 @@ export default function HomePage({ loader }) {
                     className="home-link"
                     to={{
                       pathname: `movies/${movie.id}`,
+                      state: {
+                        form: location,
+                        label: 'Home page',
+                      },
                     }}
                   >
-                    <img
-                      src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
-                      alt={movie.title}
-                      width="186"
-                      height=""
-                    />
+                    {movie.poster_path ? (
+                      <img
+                        src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
+                        alt={movie.title}
+                        width="186"
+                        height=""
+                      />
+                    ) : (
+                      <ImageError />
+                    )}
                     {/* {movie.title} */}
                   </Link>
                 </li>
