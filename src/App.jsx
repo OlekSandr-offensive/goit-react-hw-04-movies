@@ -1,11 +1,30 @@
 import { Switch, Route } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import AppBar from './components/AppBar/AppBar';
 import Container from './components/Container/Container';
-import HomePage from './components/HomePage/HomePage';
-import MoviesPage from './components/MoviesPage/MoviesPage';
-import MovieDetailsPage from './components/MovieDetailsPage/MovieDetailsPage';
+// import HomePage from './components/HomePage/HomePage';
+// import MoviesPage from './components/MoviesPage/MoviesPage';
+// import MovieDetailsPage from './components/MovieDetailsPage/MovieDetailsPage';
+
+const HomePage = lazy(() =>
+  import(
+    './components/HomePage/HomePage.jsx' /*webpackChunkName: "HomePageLazy"*/
+  ),
+);
+
+const MoviesPage = lazy(() =>
+  import(
+    './components/MoviesPage/MoviesPage.jsx' /*webpackChunkName: "MoviesPageLazy"*/
+  ),
+);
+
+const MovieDetailsPage = lazy(() =>
+  import(
+    './components/MovieDetailsPage/MovieDetailsPage.jsx' /*webpackChunkName: "MovieDetailsPageLazy"*/
+  ),
+);
 
 const loader = (
   <Loader type="Puff" color="#00BFFF" height={100} width={100} timeout={3000} />
@@ -13,20 +32,28 @@ const loader = (
 
 function App() {
   return (
-    <Container loader={loader}>
-      <AppBar />
-      <Switch>
-        <Route path="/" exact>
-          <HomePage loader={loader} />
-        </Route>
-        <Route path="/movies" exact>
-          <MoviesPage loader={loader} />
-        </Route>
-        <Route path="/movies/:movieId">
-          <MovieDetailsPage loader={loader} />
-        </Route>
-      </Switch>
-    </Container>
+    <Suspense
+      fallback={
+        <>
+          <h1>loader ... </h1>
+        </>
+      }
+    >
+      <Container loader={loader}>
+        <AppBar />
+        <Switch>
+          <Route path="/" exact>
+            <HomePage loader={loader} />
+          </Route>
+          <Route path="/movies" exact>
+            <MoviesPage loader={loader} />
+          </Route>
+          <Route path="/movies/:movieId">
+            <MovieDetailsPage loader={loader} />
+          </Route>
+        </Switch>
+      </Container>
+    </Suspense>
   );
 }
 

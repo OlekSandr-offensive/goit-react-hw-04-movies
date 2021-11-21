@@ -1,4 +1,5 @@
 import React from 'react';
+import { lazy, Suspense } from 'react';
 import { useState, useEffect } from 'react';
 import {
   Link,
@@ -9,10 +10,18 @@ import {
   useHistory,
 } from 'react-router-dom';
 import { fetchMoviesById } from '../../fetch-service';
-import Cast from '../Cast/Cast';
-import Reviews from '../Reviews/Reviews';
+// import Cast from '../Cast/Cast';
+// import Reviews from '../Reviews/Reviews';
 import ImageError from '../ImageError/ImageError';
 import '../MovieDetailsPage/MovieDetailsPage.scss';
+
+const Cast = lazy(() =>
+  import('../Cast/Cast.jsx' /* webpackChunkName: "MovieCast"*/),
+);
+
+const Reviews = lazy(() =>
+  import('../Reviews/Reviews.jsx' /* webpackChunkName: "ReviewsCast"*/),
+);
 
 const Status = {
   IDLE: 'idle',
@@ -94,20 +103,14 @@ export default function MovieDetailsPage({ loader }) {
             <h2>Additional information</h2>
             <ul>
               <li>
-                {/* {console.log()} */}
                 <Link
                   className="link"
                   to={{
                     pathname: `${url}/cast`,
-
-                    // state: {
-                    //   form: {
-                    //     location: location?.state?.form,
-                    //     label: location?.state?.label,
-
-                    //     // label: location.state.form.label ?? 'Go back',
-                    //   },
-                    // },
+                    state: {
+                      form: location?.state?.form ?? 'Go back',
+                      label: location?.state?.label ?? 'Go back',
+                    },
                   }}
                 >
                   Cast
@@ -118,12 +121,10 @@ export default function MovieDetailsPage({ loader }) {
                   className="link"
                   to={{
                     pathname: `${url}/reviews`,
-                    // state: {
-                    //   form: {
-                    //     location,
-                    //     // label: location.state.form.label ?? 'Go back',
-                    //   },
-                    // },
+                    state: {
+                      form: location?.state?.form ?? 'Go back',
+                      label: location?.state?.label ?? 'Go back',
+                    },
                   }}
                 >
                   Reviews
@@ -131,8 +132,16 @@ export default function MovieDetailsPage({ loader }) {
               </li>
             </ul>
           </div>
-          <Route path={`${path}/cast`}>{movie && <Cast />}</Route>
-          <Route path={`${path}/reviews`}>{movie && <Reviews />}</Route>
+          <Suspense
+            fallback={
+              <>
+                <h1>loader ... </h1>
+              </>
+            }
+          >
+            <Route path={`${path}/cast`}>{movie && <Cast />}</Route>
+            <Route path={`${path}/reviews`}>{movie && <Reviews />}</Route>
+          </Suspense>
         </>
       )}
       {Status.REJECTED && error && (
