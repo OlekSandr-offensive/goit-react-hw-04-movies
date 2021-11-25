@@ -77,7 +77,6 @@ export default function MovieDetailsPage({ loader }) {
             <div className="movie-detail">
               {movie.poster_path ? (
                 <img
-                  className="image"
                   src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
                   width="200"
                   alt={movie.title}

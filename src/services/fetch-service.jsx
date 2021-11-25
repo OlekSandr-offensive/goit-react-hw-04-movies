@@ -20,9 +20,9 @@ export function fetchMoviesById(movieId) {
   );
 }
 
-export function fetchSerchMovies(searchMovies) {
+export function fetchSerchMovies(searchMovies, page = 1) {
   return fetchWithErrorHandler(
-    `${BASE_URL}/3/search/movie?api_key=${API_KEY}&query=${searchMovies}&language=en-US&page=1&include_adult=false`,
+    `${BASE_URL}/3/search/movie?api_key=${API_KEY}&query=${searchMovies}&language=en-US&page=1&include_adult=false&page=${page}`,
   );
 }
 

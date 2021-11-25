@@ -54,7 +54,7 @@ function Cast({ loader }) {
                       alt={cast.name}
                     />
                   ) : (
-                    <ImageError />
+                    <ImageError width={100} height={150} />
                   )}
                   <h3 className="cast-name">{cast.name}</h3>
                   <p className="cast-character">Character: {cast.character}</p>
