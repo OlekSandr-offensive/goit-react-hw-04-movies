@@ -4,25 +4,20 @@ import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import AppBar from './components/AppBar/AppBar';
 import Container from './components/Container/Container';
-// import HomePage from './components/HomePage/HomePage';
-// import MoviesPage from './components/MoviesPage/MoviesPage';
-// import MovieDetailsPage from './components/MovieDetailsPage/MovieDetailsPage';
 
 const HomePage = lazy(() =>
-  import(
-    './components/HomePage/HomePage.jsx' /*webpackChunkName: "HomePageLazy"*/
-  ),
+  import('./pages/HomePage/HomePage.jsx' /*webpackChunkName: "HomePageLazy"*/),
 );
 
 const MoviesPage = lazy(() =>
   import(
-    './components/MoviesPage/MoviesPage.jsx' /*webpackChunkName: "MoviesPageLazy"*/
+    './pages/MoviesPage/MoviesPage.jsx' /*webpackChunkName: "MoviesPageLazy"*/
   ),
 );
 
 const MovieDetailsPage = lazy(() =>
   import(
-    './components/MovieDetailsPage/MovieDetailsPage.jsx' /*webpackChunkName: "MovieDetailsPageLazy"*/
+    './pages/MovieDetailsPage/MovieDetailsPage.jsx' /*webpackChunkName: "MovieDetailsPageLazy"*/
   ),
 );
 

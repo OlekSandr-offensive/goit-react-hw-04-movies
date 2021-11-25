@@ -9,18 +9,18 @@ import {
   useLocation,
   useHistory,
 } from 'react-router-dom';
-import { fetchMoviesById } from '../../fetch-service';
-// import Cast from '../Cast/Cast';
-// import Reviews from '../Reviews/Reviews';
-import ImageError from '../ImageError/ImageError';
+import { fetchMoviesById } from '../../services/fetch-service';
+import ImageError from '../../components/ImageError/ImageError';
 import '../MovieDetailsPage/MovieDetailsPage.scss';
 
 const Cast = lazy(() =>
-  import('../Cast/Cast.jsx' /* webpackChunkName: "MovieCast"*/),
+  import('../../components/Cast/Cast.jsx' /* webpackChunkName: "MovieCast"*/),
 );
 
 const Reviews = lazy(() =>
-  import('../Reviews/Reviews.jsx' /* webpackChunkName: "ReviewsCast"*/),
+  import(
+    '../../components/Reviews/Reviews.jsx' /* webpackChunkName: "ReviewsCast"*/
+  ),
 );
 
 const Status = {

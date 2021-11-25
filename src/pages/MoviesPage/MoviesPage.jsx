@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, useRouteMatch, useLocation, useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { fetchSerchMovies } from '../../fetch-service';
-import ImageError from '../ImageError/ImageError';
+import { fetchSerchMovies } from '../../services/fetch-service';
+import ImageError from '../../components/ImageError/ImageError';
 import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -75,10 +75,7 @@ export default function MoviesPage({ loader }) {
       search: `query=${movieName}`,
     });
 
-    // setSearchMovies(movieName);
     setMovieName('');
-    // setListMovies(null);
-    // setError(null);
   };
 
   return (
@@ -117,12 +114,11 @@ export default function MoviesPage({ loader }) {
                     src={`https://image.tmdb.org/t/p/original/${poster_path}`}
                     alt={original_title}
                     width="186"
-                    height=""
+                    height="279"
                   />
                 ) : (
                   <ImageError />
                 )}
-                {/* {original_title} */}
               </Link>
             </li>
           ))}

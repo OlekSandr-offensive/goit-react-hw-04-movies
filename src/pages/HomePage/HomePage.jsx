@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { fetchTrendingMovies } from '../../fetch-service';
-import ImageError from '../ImageError/ImageError';
+import { fetchTrendingMovies } from '../../services/fetch-service';
+import ImageError from '../../components/ImageError/ImageError';
 import '../HomePage/HomePage.scss';
 
 const Status = {
@@ -64,12 +64,11 @@ export default function HomePage({ loader }) {
                         src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
                         alt={movie.title}
                         width="186"
-                        height=""
+                        height="279"
                       />
                     ) : (
                       <ImageError />
                     )}
-                    {/* {movie.title} */}
                   </Link>
                 </li>
               ),

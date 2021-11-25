@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchMoviesReviews } from '../../fetch-service';
+import { fetchMoviesReviews } from '../../services/fetch-service';
 
 const Status = {
   IDLE: 'idle',

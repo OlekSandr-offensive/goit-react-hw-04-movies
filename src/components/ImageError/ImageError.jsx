@@ -1,10 +1,10 @@
 import React from 'react';
-import errorImage from '../ImageError/Cat-cry.jpg';
+import errorImage from '../../images/not-found.png';
 
 const ImageError = () => {
   return (
     <>
-      <img src={errorImage} width="150" alt="Cat-cry" />
+      <img src={errorImage} width="186" height="279" alt="not-found" />
     </>
   );
 };

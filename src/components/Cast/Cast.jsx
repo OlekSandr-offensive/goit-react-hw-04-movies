@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchMoviesCredits } from '../../fetch-service';
-import ImageError from '../ImageError/ImageError';
+import { fetchMoviesCredits } from '../../services/fetch-service';
+import ImageError from '../../components/ImageError/ImageError';
 import '../Cast/Cast.scss';
 
 const Status = {
