@@ -8,9 +8,9 @@ async function fetchWithErrorHandler(url = '', config = {}) {
     : Promise.reject(new Error('No found'));
 }
 
-export function fetchTrendingMovies() {
+export function fetchTrendingMovies(page) {
   return fetchWithErrorHandler(
-    `${BASE_URL}/3/trending/all/day?api_key=${API_KEY}`,
+    `${BASE_URL}/3/trending/all/day?api_key=${API_KEY}&page=${page}`,
   );
 }
 
@@ -20,7 +20,7 @@ export function fetchMoviesById(movieId) {
   );
 }
 
-export function fetchSerchMovies(searchMovies, page = 1) {
+export function fetchSerchMovies(searchMovies, page) {
   return fetchWithErrorHandler(
     `${BASE_URL}/3/search/movie?api_key=${API_KEY}&query=${searchMovies}&language=en-US&page=1&include_adult=false&page=${page}`,
   );

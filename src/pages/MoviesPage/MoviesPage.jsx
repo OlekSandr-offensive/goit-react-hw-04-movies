@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../MoviesPage/MoviesPage.scss';
+import PaginationBox from '../../components/PaginationBox/PaginationBox';
 
 const Status = {
   IDLE: 'idle',
@@ -19,11 +20,13 @@ export default function MoviesPage({ loader }) {
   const { url } = useRouteMatch();
   const location = useLocation();
   const history = useHistory();
+
   const [searchMovies] = useState(null);
   const [movieName, setMovieName] = useState('');
   const [listMovies, setListMovies] = useState(null);
   const [error, setError] = useState(null);
   const [spinner, setSpinner] = useState(true);
+  const [page, setPage] = useState(1);
   const [, setStatus] = useState(Status.PENDING);
 
   const saveList = new URLSearchParams(location.search).get(`query`);
@@ -34,7 +37,7 @@ export default function MoviesPage({ loader }) {
     const fetchSearch = async function () {
       try {
         if (saveList) {
-          const response = await fetchSerchMovies(saveList);
+          const response = await fetchSerchMovies(saveList, page);
 
           if (response.total_pages < 1) {
             setError(`Dont found this text < ${saveList} >`);
@@ -42,7 +45,8 @@ export default function MoviesPage({ loader }) {
             return;
           }
           setStatus(Status.RESOLVED);
-          setListMovies(response.results);
+          setPage(response.page);
+          setListMovies(response);
           setMovieName('');
           return response;
         } else {
@@ -57,7 +61,7 @@ export default function MoviesPage({ loader }) {
     };
 
     fetchSearch();
-  }, [searchMovies, saveList]);
+  }, [searchMovies, saveList, page]);
 
   const handleNameChange = event => {
     setMovieName(event.currentTarget.value.toLowerCase());
@@ -78,6 +82,10 @@ export default function MoviesPage({ loader }) {
     setMovieName('');
   };
 
+  const onChangePage = page => {
+    setPage(page);
+  };
+
   return (
     <>
       <ToastContainer autoClose={3000} />
@@ -96,33 +104,40 @@ export default function MoviesPage({ loader }) {
 
       {Status.PENDING && spinner && loader}
       {Status.RESOLVED && listMovies && (
-        <ul className="movie-collection">
-          {listMovies.map(({ original_title, id, poster_path }) => (
-            <li key={id}>
-              <Link
-                className="home-link"
-                to={{
-                  pathname: `${url}/${id}`,
-                  state: {
-                    form: location,
-                    label: 'Movies page',
-                  },
-                }}
-              >
-                {poster_path ? (
-                  <img
-                    src={`https://image.tmdb.org/t/p/original/${poster_path}`}
-                    alt={original_title}
-                    width="186"
-                    height="279"
-                  />
-                ) : (
-                  <ImageError />
-                )}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <>
+          <ul className="movie-collection">
+            {listMovies.results.map(({ original_title, id, poster_path }) => (
+              <li key={id}>
+                <Link
+                  className="home-link"
+                  to={{
+                    pathname: `${url}/${id}`,
+                    state: {
+                      form: location,
+                      label: 'Movies page',
+                    },
+                  }}
+                >
+                  {poster_path ? (
+                    <img
+                      src={`https://image.tmdb.org/t/p/original/${poster_path}`}
+                      alt={original_title}
+                      width="186"
+                      height="279"
+                    />
+                  ) : (
+                    <ImageError />
+                  )}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <PaginationBox
+            currentPage={page}
+            count={listMovies.total_pages}
+            onChangePage={onChangePage}
+          />
+        </>
       )}
       {Status.REJECTED && error && <h1 className="movie-error">{error}</h1>}
     </>

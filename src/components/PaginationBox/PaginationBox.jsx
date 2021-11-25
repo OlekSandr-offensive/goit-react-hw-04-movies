@@ -1,5 +1,6 @@
 import React from 'react';
 import Pagination from '@material-ui/lab/Pagination';
+
 const PaginationBox = ({ currentPage, count, onChangePage }) => {
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -7,6 +8,7 @@ const PaginationBox = ({ currentPage, count, onChangePage }) => {
         shape="rounded"
         color="secondary"
         variant="outlined"
+        style={{ marginTop: '28px' }}
         page={currentPage}
         count={count}
         onChange={(event, pages) => {
