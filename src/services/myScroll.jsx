@@ -1,7 +1,6 @@
 const myScroll = () => {
   return window.scrollTo({
-    top: 100,
-    left: 100,
+    top: document.documentElement.scrollHeight,
     behavior: 'smooth',
   });
 };

@@ -37,7 +37,14 @@ function App() {
     <Suspense
       fallback={
         <>
-          <h1>loader ... </h1>
+          <Loader
+            type="Puff"
+            color="#00BFFF"
+            height={100}
+            width={100}
+            timeout={3000}
+            style={{ textAlign: 'center', marginTop: '100px' }}
+          />
         </>
       }
     >

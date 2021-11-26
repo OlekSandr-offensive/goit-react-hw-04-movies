@@ -38,12 +38,11 @@ export default function HomePage({ loader }) {
         setError(error);
       } finally {
         setSpinner(false);
+        MyScroll();
       }
     };
 
     fetchMovies();
-
-    MyScroll();
   }, [page]);
 
   const onChangePage = page => {

@@ -12,6 +12,8 @@ import {
 import { fetchMoviesById } from '../../services/fetch-service';
 import ImageError from '../../components/ImageError/ImageError';
 import '../MovieDetailsPage/MovieDetailsPage.scss';
+import Loader from 'react-loader-spinner';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 const Cast = lazy(() =>
   import('../../components/Cast/Cast.jsx' /* webpackChunkName: "MovieCast"*/),
@@ -134,7 +136,14 @@ export default function MovieDetailsPage({ loader }) {
           <Suspense
             fallback={
               <>
-                <h1>loader ... </h1>
+                <Loader
+                  type="Puff"
+                  color="#00BFFF"
+                  height={100}
+                  width={100}
+                  timeout={3000}
+                  style={{ textAlign: 'center', marginTop: '100px' }}
+                />
               </>
             }
           >
