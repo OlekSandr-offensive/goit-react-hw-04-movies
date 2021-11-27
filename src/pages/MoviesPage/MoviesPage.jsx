@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../MoviesPage/MoviesPage.scss';
 import PaginationBox from '../../components/PaginationBox/PaginationBox';
+import MyScroll from '../../services/myScroll';
 
 const Status = {
   IDLE: 'idle',
@@ -57,6 +58,7 @@ export default function MoviesPage({ loader }) {
         setError(error);
       } finally {
         setSpinner(false);
+        MyScroll();
       }
     };
 
