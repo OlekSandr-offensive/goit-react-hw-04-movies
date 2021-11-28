@@ -1,8 +1,33 @@
 .cast-name {
+  text-align: center;
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
 .cast-character {
+  text-align: center;
   margin-bottom: 10px;
+}
+
+.cast-container {
+  margin-top: 28px;
+  display: flex;
+  justify-content: center;
+}
+
+.cast-list {
+  max-width: 500px;
+}
+
+@media (max-width: 768px) {
+  .cast-slider {
+    max-width: 200px;
+  }
+}
+
+.cast-image {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

@@ -7,6 +7,7 @@ import '../Cast/Cast.scss';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { useMediaQuery } from 'react-responsive';
 
 const Status = {
   IDLE: 'idle',
@@ -21,6 +22,8 @@ function Cast({ loader }) {
   const [error, setError] = useState(null);
   const [spinner, setSpinner] = useState(false);
   const [, setStatus] = useState(Status.PENDING);
+
+  const zoom = useMediaQuery({ query: '(max-width: 768px)' });
 
   useEffect(() => {
     setStatus(Status.PENDING);
@@ -40,25 +43,27 @@ function Cast({ loader }) {
 
     fetchMovieCast();
   }, [movieId]);
+
   const settings = {
-    dots: true,
+    dots: zoom ? false : true,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 3,
+    slidesToShow: zoom ? 1 : 4,
+    slidesToScroll: zoom ? 1 : 3,
     arrows: true,
   };
+
   return (
     <>
       {Status.PENDING && spinner && loader}
       {Status.RESOLVED && cast && (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <ul style={{ width: '500px' }}>
-            <Slider {...settings} width="500px">
+        <div className="cast-container">
+          <ul className="cast-list">
+            <Slider {...settings} width="500px" className="cast-slider">
               {cast.map(cast => (
                 <li key={cast.id}>
                   {
-                    <div>
+                    <div className="cast-image">
                       {cast.profile_path ? (
                         <img
                           src={`https://image.tmdb.org/t/p/original/${cast.profile_path}`}

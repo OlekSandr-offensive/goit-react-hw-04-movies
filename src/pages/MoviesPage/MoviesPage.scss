@@ -76,3 +76,14 @@
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-gap: 24px;
 }
+
+// @media (max-width: 800px) {
+//   .movie-collection {
+//     display: flex;
+//     padding: 0;
+//     margin: 0;
+//     flex-direction: column;
+//     justify-content: flex-start;
+//     align-content: center;
+//     background: red;
+//   }
